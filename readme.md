@@ -43,7 +43,7 @@ the log and the model will be store at ```model/transferRN50_id/``` .
     \text{ReLU}() \\
     \text{Linear}(1024, 512) \\
     \text{ReLU}() \\
-    \text{Linear}(512, 12) \\$$
+    \text{Linear}(512, 12)$$
 
     Loss (CrossEntropy) :
 
