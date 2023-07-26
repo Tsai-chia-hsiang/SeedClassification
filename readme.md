@@ -23,7 +23,7 @@ third-party package :
 
 - My split result: 
 
-    <img src="./data/trainvalloader/TrainValcount/TrainValcount.jpg" width="50%">
+    <img src="./data/trainvalloader/TrainValcount/TrainValcount.jpg" width="70%">
 
 
 ### trainmodel.py:
@@ -37,11 +37,11 @@ the log and the model will be store at ```model/transferRN50_id/``` .
 
     Loss (CrossEntropy):
 
-    <img src="./model/bestmodel/loss/loss.jpg" width="50%">
+    <img src="./model/bestmodel/loss/loss.jpg" width="70%">
 
     Accuracy:
 
-    <img src="./model/bestmodel/accuracy/accuracy.jpg" width="50%">
+    <img src="./model/bestmodel/accuracy/accuracy.jpg" width="70%">
 
 
 ### testmodel.py:
