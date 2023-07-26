@@ -34,31 +34,33 @@ __learning rate__ , __epoch__ and __FC layers__ can be set at the file ``` hyppa
 
 the log and the model will be store at ```model/transferRN50_id/``` .
 
-current best model:
+- current best model:
 
-$\text{Linear}(2048, 1024)$
+    - classifier:
 
-$\text{ReLU}()$ 
+        $\text{Linear}(2048, 1024)$
 
-$\text{Linear}(1024, 1024)$ 
+        $\text{ReLU}()$ 
 
-$\text{ReLU}()$ 
+        $\text{Linear}(1024, 1024)$ 
 
-$\text{Linear}(1024, 512)$ 
+        $\text{ReLU}()$ 
 
-$\text{ReLU}()$ 
+        $\text{Linear}(1024, 512)$ 
 
-$\text{Linear}(512, 12)$
+        $\text{ReLU}()$ 
 
-- training history:
+        $\text{Linear}(512, 12)$
 
-    Loss (CrossEntropy) :
+    - training history:
 
-    <img src="./model/bestmodel/loss/loss.jpg" width="70%">
+        Loss (CrossEntropy) :
 
-    Accuracy :
+        <img src="./model/bestmodel/loss/loss.jpg" width="70%">
 
-    <img src="./model/bestmodel/accuracy/accuracy.jpg" width="70%">
+        Accuracy :
+
+        <img src="./model/bestmodel/accuracy/accuracy.jpg" width="70%">
 
 
 ### testmodel.py :
