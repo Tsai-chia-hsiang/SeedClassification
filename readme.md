@@ -35,13 +35,8 @@ __learning rate__ , __epoch__ and __FC layers__ can be set at the file ``` hyppa
 the log and the model will be store at ```model/transferRN50_id/``` .
 
 current best model:
-$\text{Linear}(2048, 1024) \to \\
-    \text{ReLU}()
-    \text{Linear}(1024, 1024)
-    \text{ReLU}()
-    \text{Linear}(1024, 512)
-    \text{ReLU}()
-    \text{Linear}(512, 12)$
+
+$\text{Linear}(2048, 1024) \to \\\text{ReLU}()\text{Linear}(1024, 1024)\text{ReLU}()\text{Linear}(1024, 512)\text{ReLU}()\text{Linear}(512, 12)$
 
 - training history:
 
