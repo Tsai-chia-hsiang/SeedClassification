@@ -19,7 +19,7 @@ third-party package :
 
 - To download pytorch pretrained ResNet50 model 
     
-- split the images in ```data/train/``` ramdomly into training data and test data, then store the splitting result.
+- split the images in ```data/train/``` randomly into training data and test data, then store the splitting result.
 
 - My split result: 
 
