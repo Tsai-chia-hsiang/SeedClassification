@@ -37,16 +37,13 @@ the log and the model will be store at ```model/transferRN50_id/``` .
 
     classifier:
 
-    $$
-    \text{Linear}(2048, 1024) \\
+    $$\text{Linear}(2048, 1024) \\
     \text{ReLU}() \\
     \text{Linear}(1024, 1024) \\
     \text{ReLU}() \\
     \text{Linear}(1024, 512) \\
     \text{ReLU}() \\
-    \text{Linear}(512, 12) \\
-    $$
-
+    \text{Linear}(512, 12) \\$$
 
     Loss (CrossEntropy) :
 
