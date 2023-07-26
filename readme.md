@@ -52,15 +52,15 @@ the log and the model will be store at ```model/transferRN50_id/``` .
 
     $\text{Linear}(512, 12)$
 
-- training history:
+#### training history:
 
-    Loss (CrossEntropy) :
+Loss (CrossEntropy) :
 
-    <img src="./model/bestmodel/loss/loss.jpg" width="70%">
+<img src="./model/bestmodel/loss/loss.jpg" width="70%">
 
-    Accuracy :
+Accuracy :
 
-    <img src="./model/bestmodel/accuracy/accuracy.jpg" width="70%">
+<img src="./model/bestmodel/accuracy/accuracy.jpg" width="70%">
 
 
 ### testmodel.py :
