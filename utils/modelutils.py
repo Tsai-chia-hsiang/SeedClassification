@@ -37,7 +37,9 @@ def dowload_pretrainrn50(savepath):
 def transfer_rn50_model(pretrained_path:os.PathLike, FC:list)->TransferResNet50:
     
     trn50 = TransferResNet50()
-    trn50.rn50.load_state_dict(torch.load(f=pretrained_path))
+    trn50.rn50.load_state_dict(
+        torch.load(f=pretrained_path, map_location="cpu")
+    )
 
     for p in trn50.parameters():
         p.requires_grad = False
