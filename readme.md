@@ -14,8 +14,8 @@ third-party package :
 ## Method:
 - using pretrianed __torchvision.model.resnet50__ as the based model to do transfer learning by fine-tuning its ```fc``` layer.
 
-## Exectuion step:
-### setup.py:
+## Exectuion steps :
+### setup.py :
 
 - To download pytorch pretrained ResNet50 model 
     
@@ -26,7 +26,7 @@ third-party package :
     <img src="./data/trainvalloader/TrainValcount/TrainValcount.jpg" width="70%">
 
 
-### trainmodel.py:
+### trainmodel.py :
 
 To train the transfered ResNet50 model by modifing its fully connected layers (i.e. classifier)
 
@@ -35,15 +35,30 @@ __learning rate__ , __epoch__ and __FC layers__ can be set at the file ``` hyppa
 the log and the model will be store at ```model/transferRN50_id/``` .
 - training history of current best model :
 
-    Loss (CrossEntropy):
+    classifier: 
+    $$
+    \text{Linear}(2048, 1024)\\
+    \text{ReLU}()\\
+    \text{Linear}(1024, 1024)\\
+    \text{ReLU}()\\
+    \text{Linear}(1024, 512)\\
+    \text{ReLU}()\\
+    \text{Linear}(512, 12)\\
+    $$
+
+
+    Loss (CrossEntropy) :
 
     <img src="./model/bestmodel/loss/loss.jpg" width="70%">
 
-    Accuracy:
+    Accuracy :
 
     <img src="./model/bestmodel/accuracy/accuracy.jpg" width="70%">
 
 
-### testmodel.py:
+### testmodel.py :
 
 To generate the ```submission.csv``` for testing images in ```data/test/```
+
+## Score on Kaggle :
+<img src="./score.png">
