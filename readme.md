@@ -33,17 +33,17 @@ To train the transfered ResNet50 model by modifing its fully connected layers (i
 __learning rate__ , __epoch__ and __FC layers__ can be set at the file ``` hyppara.json```
 
 the log and the model will be store at ```model/transferRN50_id/``` .
-- training history of current best model :
 
-    classifier:
-
-    $\text{Linear}(2048, 1024) \to \\
+current best model:
+$\text{Linear}(2048, 1024) \to \\
     \text{ReLU}()
     \text{Linear}(1024, 1024)
     \text{ReLU}()
     \text{Linear}(1024, 512)
     \text{ReLU}()
     \text{Linear}(512, 12)$
+
+- training history:
 
     Loss (CrossEntropy) :
 
