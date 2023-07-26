@@ -15,21 +15,35 @@ third-party package :
 - using pretrianed __torchvision.model.resnet50__ as the based model to do transfer learning by fine-tuning its ```fc``` layer.
 
 ## Exectuion step:
-- setup.py:
+### setup.py:
 
-    - To download pytorch pretrained ResNet50 model 
+- To download pytorch pretrained ResNet50 model 
     
-    - split the images in ```data/train/``` ramdomly into training data and test data, then store the splitting result.
+- split the images in ```data/train/``` ramdomly into training data and test data, then store the splitting result.
 
-        - My split result: 
-            <img src="./data/trainvalloader/TrainValcount/TrainValcount.jpg">
+- My split result: 
 
-- trainmodel.py:
+    <img src="./data/trainvalloader/TrainValcount/TrainValcount.jpg" width="50%">
 
-    To train the transfered ResNet50 model by modifing its fully connected layers (i.e. classifier)
 
-    the log and the model will be store at ```model/transferRN50_id/``` .
+### trainmodel.py:
 
-- testmodel.py:
+To train the transfered ResNet50 model by modifing its fully connected layers (i.e. classifier)
 
-    To generate the ```submission.csv``` for testing images in ```data/test/```
+__learning rate__ , __epoch__ and __FC layers__ can be set at the file ``` hyppara.json```
+
+the log and the model will be store at ```model/transferRN50_id/``` .
+- training history of current best model :
+
+    Loss (CrossEntropy):
+
+    <img src="./model/bestmodel/loss/loss.jpg" width="50%">
+
+    Accuracy:
+
+    <img src="./model/bestmodel/accuracy/accuracy.jpg" width="50%">
+
+
+### testmodel.py:
+
+To generate the ```submission.csv``` for testing images in ```data/test/```
