@@ -21,6 +21,7 @@ third-party package :
     
     - split the images in ```data/train/``` into training data and test data, then store the splitting result.
 
+
 - trainmodel.py:
 
     To train the transfered ResNet50 model by modifing its fully connected layers (i.e. classifier)
