@@ -42,6 +42,6 @@ def main(modeldir:os.PathLike):
     
 
 if __name__ == "__main__":
-    bestversion = 2
+    bestversion = 0
     bestmodeldir = os.path.join("model",f"transferRN50_{bestversion}")
     main(modeldir = bestmodeldir)

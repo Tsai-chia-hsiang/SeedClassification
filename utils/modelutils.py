@@ -40,10 +40,7 @@ def transfer_rn50_model(pretrained_path:os.PathLike, FC:list)->TransferResNet50:
     trn50.rn50.load_state_dict(
         torch.load(f=pretrained_path, map_location="cpu")
     )
-
-    for p in trn50.parameters():
-        p.requires_grad = False
     
     trn50.modify_fc(fctrans=FC)
-
+    
     return trn50

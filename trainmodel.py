@@ -33,6 +33,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
             pretrained_path=os.path.join(modelsavingroot,"rn50pretrained.pth"),
             FC = FC
         )
+        print(transfermodel.rn50.fc)
         
         writejson(FC, os.path.join(modelsavingdir,"fc.json"))
         writejson(idx_to_classes,os.path.join(modelsavingdir,"id2class.json"))
@@ -41,7 +42,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
             
         lossfunction = nn.CrossEntropyLoss()
         optr = torch.optim.Adam(
-            transfermodel.rn50.fc.parameters(),lr = hypara['lr']
+            transfermodel.parameters(),lr = hypara['lr']
         )
             
         history = train_model(
