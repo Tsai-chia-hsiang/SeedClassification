@@ -8,8 +8,6 @@ third-party package :
 - matplotlib
 - torch, torchvision
 
-** More detail are available at ```requirements.txt```
-
 
 ## Method:
 - using pretrianed __torchvision.model.resnet50__ as the based model to do transfer learning by fine-tuning its ```fc``` layer.
