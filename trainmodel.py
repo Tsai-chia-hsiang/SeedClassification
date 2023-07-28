@@ -59,6 +59,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
 
 
 if __name__ == "__main__":
+    
     dev = torch.device('cpu')
     if torch.cuda.is_available():
         gpuid = 0
