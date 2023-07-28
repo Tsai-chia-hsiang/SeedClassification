@@ -8,7 +8,11 @@ from utils.dataset import TestIMG
 from tqdm import tqdm
 
 def main(modeldir:os.PathLike):
-    dev = torch.device('cuda:0')
+    dev = torch.device('cpu')
+    if torch.cuda.is_available():
+        gpuid = 0
+        assert gpuid < torch.cuda.device_count()
+        dev = torch.device(f'cuda:{gpuid}')
 
     fc = readjson(os.path.join(modeldir,"fc.json"))
     id2class = readjson(os.path.join(modeldir,"id2class.json"))
@@ -24,15 +28,15 @@ def main(modeldir:os.PathLike):
         dataset=TestIMG(testdir=os.path.join("data","test")),
         batch_size=128, num_workers=os.cpu_count()//2
     )
-    prediction = {
-        'file':[],'species':[]
-    }
+    prediction = {'file':[],'species':[]}
+
     for testimg, names in tqdm(testloader):
-        pred = transrn50.forward(testimg.to(device=dev))
+        pred = transrn50(testimg.to(device=dev))
         _, pred_label = torch.max(pred, 1)
 
         pred_label = pred_label.cpu().tolist()
-        species = list(id2class[f"{pli}"] for pli in pred_label )
+        species = list(id2class[f"{pli}"] for pli in pred_label)
+
         prediction['file'] += names
         prediction['species'] += species
     
