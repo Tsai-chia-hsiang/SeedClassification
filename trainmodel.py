@@ -7,7 +7,7 @@ from utils.modelutils import transfer_rn50_model
 from utils.train import train_model, plotting_loss_and_acc
 
 
-def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
+def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
     
     _ = check_dir(loader_dir, ["tvloader.pth","id2class.json"])
     
@@ -19,7 +19,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
         modelsavingroot, based_idx=0,prefix="transferRN50_"
     )
 
-    for i, hypara in enumerate(hyparas):
+    for i, hyppara in enumerate(hypparas):
         
         modelsavingdir = makedir(
             os.path.join(
@@ -27,7 +27,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
                 rmold=True
         )
         
-        FC = hypara['fc'] + [len(idx_to_classes.keys())]
+        FC = hyppara['fc'] + [len(idx_to_classes.keys())]
         
         transfermodel = transfer_rn50_model(
             pretrained_path=os.path.join(modelsavingroot,"rn50pretrained.pth"),
@@ -42,13 +42,13 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
             
         lossfunction = nn.CrossEntropyLoss()
         optr = torch.optim.Adam(
-            transfermodel.parameters(),lr = hypara['lr']
+            transfermodel.parameters(),lr = hyppara['lr']
         )
             
         history = train_model(
             model=transfermodel, criteria=lossfunction, optr=optr,
             loader=train_val_loader, 
-            epochs=hypara['epochs'], ondevice=dev, 
+            epochs=hyppara['epochs'], ondevice=dev, 
             modelsavepath = os.path.join(
                 modelsavingdir, "transferRN50.pth"
             ) 
@@ -59,16 +59,15 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hyparas:list):
 
 
 if __name__ == "__main__":
+    dev = torch.device('cpu')
+    if torch.cuda.is_available():
+        gpuid = 0
+        assert gpuid < torch.cuda.device_count()
+        dev = torch.device(f'cuda:{gpuid}')
     
-    gpuid = 0
-    assert gpuid < torch.cuda.device_count()
-    dev = torch.device(
-        f'cuda:{gpuid}' if torch.cuda.is_available() else 'cpu'
-    ) 
-
     main(
         loader_dir=os.path.join("data","trainvalloader"), 
         dev=dev,
         modelsavingroot=makedir(os.path.join("model")), 
-        hyparas=readjson("hypara.json")
+        hypparas=readjson("hyppara.json")
     )
