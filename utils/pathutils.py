@@ -12,9 +12,9 @@ def makedir(d:os.PathLike, rmold=False):
     os.mkdir(d)
     return d
     
-def check_dir(root:os.PathLike, necessary_subfolers_files = [])->os.PathLike:
-    
-    for i in necessary_subfolers_files:
+def check_dir(root:os.PathLike, necessary_subfolers_files:list = None)->os.PathLike:
+    nsf = [] if necessary_subfolers_files is None else necessary_subfolers_files
+    for i in nsf:
         assert os.path.exists(os.path.join(root, i))
         
     return root
