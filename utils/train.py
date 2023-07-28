@@ -31,7 +31,7 @@ def forward_one_epoch(
             optr.zero_grad()
         imgs = x.to(device=dev)
         labels = y.to(device=dev)
-        out = model.forward(imgs)
+        out = model(imgs)
 
         l = loss(out, labels)
         evai = evafunc['function'](out, labels, *evafunc['args'])
