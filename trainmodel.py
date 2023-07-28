@@ -54,7 +54,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
             ) 
         )
         
-        writejson(history, os.path.join(modelsavingdir,"trainingHist.json"))
+        writejson(history, os.path.join(modelsavingdir,"traininghist.json"))
         plotting_loss_and_acc(history=history, savedir=modelsavingdir)
 
 
