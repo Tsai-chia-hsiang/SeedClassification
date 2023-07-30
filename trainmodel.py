@@ -3,7 +3,7 @@ import os.path as osp
 import torch
 import torch.nn as nn
 from utils.parse_argv import parsing_argv
-from utils.torchsetting import fix_torch_seeds, get_one_torch_device
+from utils.torchsetting import fix_torch_condition, get_one_torch_device
 from utils.dictutils import readjson, writejson
 from utils.pathutils import check_dir, makedir, get_newest_index_subdir
 from utils.modelutils import transfer_rn50_model
@@ -13,12 +13,11 @@ from utils.train import train_model, plotting_loss_and_acc
 
 def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
     
-    print(dev)
+    print(f"{dev} : {torch.cuda.get_device_name(dev)}")
     
     _ = check_dir(loader_dir, ["tvloader.pth","id2class.json"])
     
     train_val_loader = torch.load(osp.join(loader_dir, "tvloader.pth"))
-    
     idx_to_classes = readjson(osp.join(loader_dir, "id2class.json"))
 
     base_saving_idx = get_newest_index_subdir(
@@ -26,6 +25,8 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
     )
 
     for i, hyppara in enumerate(hypparas):
+        
+        fix_torch_condition(seed=65535)
         
         modelsavingdir = makedir(
             osp.join(
@@ -69,7 +70,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
 if __name__ == "__main__":
     
     argmap = parsing_argv()
-    fix_torch_seeds(seed=65535)
+    
     main(
         loader_dir=osp.join("data","trainvalloader"), 
         dev=get_one_torch_device(
