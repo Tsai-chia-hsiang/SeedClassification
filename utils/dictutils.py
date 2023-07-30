@@ -13,3 +13,7 @@ def readjson(filepath:os.PathLike):
     with open(filepath, "r", encoding="utf-8") as d:
         ret = json.load(d)
     return ret
+
+def combine_key_value_list(keylst:list, vallst:list)->dict:
+    assert len(keylst) == len(vallst)
+    return {k:v for k,v in zip(keylst, vallst)}
