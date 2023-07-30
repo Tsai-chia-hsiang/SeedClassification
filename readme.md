@@ -23,6 +23,14 @@ third-party package :
 
     <img src="./data/trainvalloader/TrainValcount/TrainValcount.jpg" width="70%">
 
+### deviceinfo.py :
+
+Can list the infomations for your device, include:
+- RAM size (GB)
+- Number of CPUs (thread I think)
+- Number of GPUs and their cuda index.
+
+Will output to ```./deviceinfo.json```, please go to check it after execution this program.
 
 ### trainmodel.py :
 
