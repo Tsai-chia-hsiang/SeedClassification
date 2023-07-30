@@ -1,19 +1,25 @@
 import os
+import os.path as osp
 import torch
 import torch.nn as nn
+from utils.parse_argv import parsing_argv
+from utils.torchsetting import fix_torch_seeds, get_one_torch_device
 from utils.dictutils import readjson, writejson
 from utils.pathutils import check_dir, makedir, get_newest_index_subdir
 from utils.modelutils import transfer_rn50_model
 from utils.train import train_model, plotting_loss_and_acc
 
 
+
 def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
+    
+    print(dev)
     
     _ = check_dir(loader_dir, ["tvloader.pth","id2class.json"])
     
-    train_val_loader = torch.load(os.path.join(loader_dir, "tvloader.pth"))
+    train_val_loader = torch.load(osp.join(loader_dir, "tvloader.pth"))
     
-    idx_to_classes = readjson(os.path.join(loader_dir, "id2class.json"))
+    idx_to_classes = readjson(osp.join(loader_dir, "id2class.json"))
 
     base_saving_idx = get_newest_index_subdir(
         modelsavingroot, based_idx=0,prefix="transferRN50_"
@@ -22,7 +28,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
     for i, hyppara in enumerate(hypparas):
         
         modelsavingdir = makedir(
-            os.path.join(
+            osp.join(
                 modelsavingroot,f"transferRN50_{i+base_saving_idx}"), 
                 rmold=True
         )
@@ -30,13 +36,13 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
         FC = hyppara['fc'] + [len(idx_to_classes.keys())]
         
         transfermodel = transfer_rn50_model(
-            pretrained_path=os.path.join(modelsavingroot,"rn50pretrained.pth"),
+            pretrained_path=osp.join(modelsavingroot,"rn50pretrained.pth"),
             FC = FC
         )
         print(transfermodel.rn50.fc)
         
-        writejson(FC, os.path.join(modelsavingdir,"fc.json"))
-        writejson(idx_to_classes,os.path.join(modelsavingdir,"id2class.json"))
+        writejson(FC, osp.join(modelsavingdir,"fc.json"))
+        writejson(idx_to_classes,osp.join(modelsavingdir,"id2class.json"))
 
         transfermodel = transfermodel.to(device=dev)
             
@@ -52,41 +58,24 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
             model=transfermodel, criteria=lossfunction, optr=optr,
             loader=train_val_loader, 
             epochs=hyppara['epochs'], ondevice=dev, 
-            modelsavepath = os.path.join(
+            modelsavepath = osp.join(
                 modelsavingdir, "transferRN50.pth"
             ) 
         )
         
-        writejson(history, os.path.join(modelsavingdir,"traininghist.json"))
+        writejson(history, osp.join(modelsavingdir,"traininghist.json"))
         plotting_loss_and_acc(history=history, savedir=modelsavingdir)
-
-def init_torch_seeds(seed=0):
-    
-    """
-    For experiment reproducable
-    """
-    
-    torch.manual_seed(seed) 
-    # sets the seed for generating random numbers.
-    torch.cuda.manual_seed(seed) 
-    # Sets the seed for generating random numbers for the current GPU. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
-
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-
+        
 if __name__ == "__main__":
     
-    dev = torch.device('cpu')
-    if torch.cuda.is_available():
-        gpuid = 0
-        assert gpuid < torch.cuda.device_count()
-        dev = torch.device(f'cuda:{gpuid}')
-
-    init_torch_seeds(seed=65585)
-    
+    argmap = parsing_argv()
+    fix_torch_seeds(seed=65535)
     main(
-        loader_dir=os.path.join("data","trainvalloader"), 
-        dev=dev,
-        modelsavingroot=makedir(os.path.join("model")), 
+        loader_dir=osp.join("data","trainvalloader"), 
+        dev=get_one_torch_device(
+            gpuid = argmap['gpuid'] if 'gpuid' in argmap else 0
+        ),
+        modelsavingroot=makedir(osp.join("model")), 
         hypparas=readjson("hyppara.json")
     )
+
