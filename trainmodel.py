@@ -41,8 +41,11 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
         transfermodel = transfermodel.to(device=dev)
             
         lossfunction = nn.CrossEntropyLoss()
+
         optr = torch.optim.Adam(
-            transfermodel.parameters(),lr = hyppara['lr']
+            transfermodel.parameters(),
+            lr = hyppara['lr'],
+            weight_decay=hyppara['weight_decay'] if 'weight_decay' in hyppara else 0.0
         )
             
         history = train_model(
@@ -57,6 +60,19 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
         writejson(history, os.path.join(modelsavingdir,"traininghist.json"))
         plotting_loss_and_acc(history=history, savedir=modelsavingdir)
 
+def init_torch_seeds(seed=0):
+    
+    """
+    For experiment reproducable
+    """
+    
+    torch.manual_seed(seed) 
+    # sets the seed for generating random numbers.
+    torch.cuda.manual_seed(seed) 
+    # Sets the seed for generating random numbers for the current GPU. It’s safe to call this function if CUDA is not available; in that case, it is silently ignored.
+
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 if __name__ == "__main__":
     
@@ -65,6 +81,8 @@ if __name__ == "__main__":
         gpuid = 0
         assert gpuid < torch.cuda.device_count()
         dev = torch.device(f'cuda:{gpuid}')
+
+    init_torch_seeds(seed=65585)
     
     main(
         loader_dir=os.path.join("data","trainvalloader"), 
