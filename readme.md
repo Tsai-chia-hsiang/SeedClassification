@@ -25,7 +25,7 @@ third-party package :
 
 ### deviceinfo.py :
 
-Can list the infomations for your device, include:
+Can list the infomation for your device, including :
 - RAM size (GB)
 - Number of CPUs (thread I think)
 - Number of GPUs and their cuda index.
