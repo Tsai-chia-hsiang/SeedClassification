@@ -25,7 +25,7 @@ def main():
     torch DataLoader form.
 
     """
-    #dowloadmodel()
+    dowloadmodel()
     splitdata()
     
 
