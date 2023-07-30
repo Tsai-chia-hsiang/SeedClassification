@@ -36,6 +36,10 @@ Will output to ```./deviceinfo.json```, please go to check it after execution th
 
 To train the transfered ResNet50 model by modifing its fully connected layers (i.e. classifier)
 
+The GPU for training : __NVIDIA GeForce RTX 3090__ 
+* if you want to get same experiment result, it has to be aware that 
+whether you using same device on local .
+
 command: 
 
 ```python trainmodel.py gpuid g```
