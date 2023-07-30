@@ -28,6 +28,14 @@ third-party package :
 
 To train the transfered ResNet50 model by modifing its fully connected layers (i.e. classifier)
 
+command: 
+
+```python trainmodel.py gpuid g```
+
+- gpuid: the index of gpu that is going to use.
+- e.g. ```python trainmodel.py gpuid 0```
+
+
 __learning rate__ , __epoch__ and __FC layers__ can be set at the file ``` hyppara.json```
 
 the log and the model will be store at ```model/transferRN50_id/``` .
@@ -53,5 +61,12 @@ Accuracy :
 
 To generate the ```submission.csv``` for testing images in ```data/test/```
 
+command: 
+
+```python testmodel.py gpuid g modelid m```
+- gpuid: the index of gpu that is going to use.
+- modelid: the version of model that is going to use. 
+    - will concate "./model/transferRN50_" as prefix.
+- e.g. ```python testmodel.py gpuid 1 modelid 2```
 ## Score on Kaggle :
 <img src="./score.png">
