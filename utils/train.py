@@ -80,8 +80,10 @@ def train_model(
             )
             history['loss'][phase].append(li)
             history['accuracy'][phase].append(acci)
-            print(f"{phase} epochs : {_} loss:{li}, acc:{acci}")
+            print(f"{phase} epochs : {_} loss:{li:.4f}, acc:{acci:.4f}", end=" ")
+
             if phase == "val":
+                print(f"best acc: {best_acc:.4f}")
                 if acci > best_acc:
 
                     if epochpbar:
@@ -91,6 +93,8 @@ def train_model(
                     
                     torch.save(model.state_dict(), f = modelsavepath)
                     best_acc = acci
+            else :
+                print()
 
     return history
 
