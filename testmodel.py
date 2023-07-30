@@ -1,32 +1,29 @@
 import torch
 from torch.utils.data import DataLoader
 import os
+import os.path as osp
+from tqdm import tqdm
 import pandas as pd
+from utils.parse_argv import parsing_argv
 from utils.dictutils import readjson
+from utils.torchsetting import get_one_torch_device
 from utils.modelutils import TransferResNet50
 from utils.dataset import TestIMG
-from tqdm import tqdm
 
-def main(modeldir:os.PathLike):
-    
-    dev = torch.device('cpu')
-    if torch.cuda.is_available():
-        gpuid = 0
-        assert gpuid < torch.cuda.device_count()
-        dev = torch.device(f'cuda:{gpuid}')
-
-    fc = readjson(os.path.join(modeldir,"fc.json"))
-    id2class = readjson(os.path.join(modeldir,"id2class.json"))
+def main(modeldir:os.PathLike, dev:torch.device):
+    print(dev)
+    fc = readjson(osp.join(modeldir,"fc.json"))
+    id2class = readjson(osp.join(modeldir,"id2class.json"))
     transrn50 = TransferResNet50(FC=fc)
     transrn50.load_state_dict(
         torch.load(
-            os.path.join(modeldir,"transferRN50.pth"), 
+            osp.join(modeldir,"transferRN50.pth"), 
             map_location='cpu'
         ),
     )
     transrn50.to(device=dev)
     testloader = DataLoader(
-        dataset=TestIMG(testdir=os.path.join("data","test")),
+        dataset=TestIMG(testdir=osp.join("data","test")),
         batch_size=128, num_workers=os.cpu_count()//2
     )
     prediction = {'file':[],'species':[]}
@@ -42,11 +39,19 @@ def main(modeldir:os.PathLike):
         prediction['species'] += species
     
     prediction = pd.DataFrame(prediction)
-    prediction.to_csv(os.path.join("submission.csv"), index=False)
+    prediction.to_csv(osp.join("submission.csv"), index=False)
 
     
 
 if __name__ == "__main__":
-    bestversion = 0
-    bestmodeldir = os.path.join("model",f"transferRN50_{bestversion}")
-    main(modeldir = bestmodeldir)
+
+    argmap = parsing_argv()
+    
+    main(
+        modeldir = osp.join(
+            "model",f"transferRN50_{argmap['modelid']}"
+        ),
+        dev=get_one_torch_device(
+            gpuid = argmap['gpuid'] if 'gpuid' in argmap else 0
+        )
+    )
