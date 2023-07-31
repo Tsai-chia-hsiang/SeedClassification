@@ -27,12 +27,14 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
     for i, hyppara in enumerate(hypparas):
         
         fix_torch_condition(seed=0)
-        
+
         modelsavingdir = makedir(
             osp.join(
                 modelsavingroot,f"transferRN50_{i+base_saving_idx}"), 
                 rmold=True
         )
+        
+        writejson(hyppara, osp.join(modelsavingdir,"hyppara.json"))
         
         FC = hyppara['fc'] + [len(idx_to_classes.keys())]
         
