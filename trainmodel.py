@@ -26,7 +26,7 @@ def main(loader_dir,modelsavingroot, dev:torch.device, hypparas:list):
 
     for i, hyppara in enumerate(hypparas):
         
-        fix_torch_condition(seed=65535)
+        fix_torch_condition(seed=0)
         
         modelsavingdir = makedir(
             osp.join(
