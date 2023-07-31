@@ -11,7 +11,10 @@ from utils.modelutils import TransferResNet50
 from utils.dataset import TestIMG
 
 def main(modeldir:os.PathLike, dev:torch.device):
+
+    print(f"using model saved at : {modeldir}")
     print(f"{dev} : {torch.cuda.get_device_name(dev)}")
+    
     fc = readjson(osp.join(modeldir,"fc.json"))
     id2class = readjson(osp.join(modeldir,"id2class.json"))
     transrn50 = TransferResNet50(FC=fc)
